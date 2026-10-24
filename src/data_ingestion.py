@@ -4,6 +4,7 @@ import pandas as pd
 import os
 from sklearn.model_selection import train_test_split
 import logging
+import yaml
 
 #logging part
 log_dir = "logs"
@@ -25,6 +26,22 @@ file_handler.setFormatter(formatter)
 
 logger.addHandler(console_handler)
 logger.addHandler(file_handler)
+
+def load_params(params_path: str) -> dict:
+    try:
+        with open(params_path, 'r') as f:
+            params = yaml.safe_load(f)
+        logger.debug("Loaded params from %s", params_path)
+        return params
+    except FileNotFoundError as e:
+        logger.error('Failed to load params from %s', e)
+        raise
+    except yaml.YAMLError as e:
+        logger.error('Failed to load params from %s', e)
+        raise
+    except Exception as e:
+        logger.error('Failed to load params from %s', e)
+        raise
 
 #data ingestion
 def load_data(data_url:str) -> pd.DataFrame:
@@ -65,7 +82,8 @@ def save_data(train_data: pd.DataFrame, test_data: pd.DataFrame, data_path: str)
 
 def main():
     try:
-        test_size = 0.2
+        params = load_params(params_path='params.yaml')
+        test_size = params['data_ingestion']['test_size']
         data_path = "https://raw.githubusercontent.com/vikashishere/Datasets/main/spam.csv"
         df = load_data(data_path)
         final_df = preprocess_data(df)
