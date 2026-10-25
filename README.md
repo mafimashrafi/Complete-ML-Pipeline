@@ -19,5 +19,11 @@ Complete-ML-Pipeline/
 ├── params.yaml            # Hyperparameters and configuration parameters
 ├── ProjectFlow.txt        # Project roadmap and planning notes
 └── README.md              # Project documentation
+```
 
-##
+## 🛠️ Tech Stack & Tools
+- **Language:** Python, Jupyter Notebook
+- **Pipeline Orchestration:** DVC( <span style="color: gray;"><small>dvc.yaml</small></span> )
+- **Data Versioning Control and Tracking:** DVC, AWS S3 Remote Storage will be added
+- **Experiment Tracking:** DVCLive
+
